@@ -1,2 +1,2 @@
-# my_functional_lang
-A fpurely unctional language with a compiler
+# Funlang - A purely FUNctional LANguage
+A purely functional language with a compiler
