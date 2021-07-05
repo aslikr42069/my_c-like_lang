@@ -13,6 +13,7 @@ int main(int argc, char *argv[]){
   printf("%s error: Too many arguments supplied\n", argv[0]);
   return 0;
  }
+
  FILE *file = fopen(argv[1], "r");
  if(file == NULL){
   printf("Error opening file %s\n", argv[1]);
@@ -37,5 +38,6 @@ int main(int argc, char *argv[]){
  yyparse(scanner);
  yylex_destroy(scanner);
 
+ free(input);
  return 0; 
 }
