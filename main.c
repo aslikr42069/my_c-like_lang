@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include "token_code.h"
-
-char *type_strings_printable[] = {"INT", "STRING", "BOOLEAN"};
-char *type_strings_readable[] = {"int", "str", "bool"};
+#include "eval.h"
 
 
 int main(int argc, char *argv[]){
@@ -33,19 +30,12 @@ int main(int argc, char *argv[]){
  }
  fclose(file);
  
- size_t token_count = 0;
- token_count = count_tokens(input, input_length);
- size_t token_start[token_count];
- size_t token_end[token_count];
- getTokenStart(input, input_length, token_start);
- getTokenEnd(input, input_length, token_end);
- 
- size_t tokens_types[token_count];
-
- for(size_t i = 0; i < token_count; i++){
-  tokens_types[i] = getTokenInitialType(input, token_start[i], token_end[i]);
-  printf("Token type %li = %li\n", i, tokens_types[i]);
- }
+ YY_BUFFER_STATE state;
+ yyscan_t scanner;
+ yylex_init(&scanner);
+ yy_scan_string(input, scanner);
+ yyparse(scanner);
+ yylex_destroy(scanner);
 
  return 0; 
 }
