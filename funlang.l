@@ -15,7 +15,7 @@ size_t line_count = 1;
 int_literal        ((-)?((0x)[0-9A-Fa-f]+|[0-9]+))
 str_literal        (\"[A-Za-z0-9 \t!#-&(-/:-@[-_{-~]*\")
 whitespace         [ \t\r]
-identifier         ([A-Za-z])([A-Za-z0-9]+)
+identifier         ([_A-Za-z])([_A-Za-z0-9]+)
 controlflow        ([!#-&(-/:-@[-_{-~])
 
 %%
