@@ -16,6 +16,7 @@ int_literal        ((-)?((0x)[0-9A-Fa-f]+|[0-9]+))
 str_literal        (\"[A-Za-z0-9 \t!#-&(-/:-@[-_{-~]*\")
 whitespace         [ \t\r]
 identifier         ([A-Za-z])([A-Za-z0-9]+)
+controlflow        ([!#-&(-/:-@[-_{-~])
 
 %%
 "func"                {return FUNCTION_KEYWORD; }
@@ -35,8 +36,9 @@ identifier         ([A-Za-z])([A-Za-z0-9]+)
 {identifier}          {yylval->name = strdup(yytext);
                        return IDENTIFIER;       }
 \n                    {line_count++; }
-{whitespace}
-.                     {printf("Error, unrecognized char at line #%li", line_count); 
+{whitespace}                       ;
+{controlflow}                      ;
+.                     {printf("Error, unrecognized char %s at line #%li", yytext, line_count); 
                        return OTHER;            }
 
 %%
