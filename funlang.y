@@ -1,19 +1,34 @@
-%{
- #include "Lexer.h"
- #include "Parser.h"
-%}
+%define api.pure full
+%locations
+%param {yyscan_t scanner}
+
+%code top{
+ #include <stdio.h>
+ #include <stdint.h>
+}
+
+%code requires{
+ typedef void* yyscan_t;
+}
+
+%code{
+ int yylex(YYSTYPE* yylvalp, YYLTYPE* yyllocp, yyscan_t scanner);
+}
+
 
 %token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD
-%token BOOL_LITERAL INT_LITERAL STR_LITERAL GIVES_TYPE IDENTIFIER OTHER
+%token BOOL_LITERAL STR_LITERAL GIVES_TYPE OTHER
+%token <val>  INT_LITERAL
+%token <name> IDENTIFIER
 
 %output  "Parser.c"
 %defines "Parser.h"
 
 %union{
- char name[16];
+ char *name;
  intmax_t val;
-}
-%lex-param {yyscan_t scanner}
+};
+
 
 %%
 
@@ -72,14 +87,14 @@ var_definition: INT_KEYWORD IDENTIFIER '=' INT_LITERAL ';'
 
 function_call: IDENTIFIER '(' call_parameters ')';
 
-boolean_statement: '(' IDENTIFIER "==" IDENTIFIER ')' /* TODO: Make sure this only works for ints */
-|                  '(' IDENTIFIER ')'                 /* TODO: Make sure this only works for a bool variable */
-|                  '(' indexing_expression ')'        /* TODO: Make sure the array that is being indexed is of type bool */
+boolean_statement: '(' IDENTIFIER "==" IDENTIFIER ')'
+|                  '(' IDENTIFIER ')'               
+|                  '(' indexing_expression ')'     
 |                  '(' boolean_statement ')'
 |                  '(' boolean_statement "&&" boolean_statement ')'
 |                  '(' boolean_statement "||" boolean_statement ')'
 |                  '(' '!' boolean_statement ')'
-|                  '(' function_call ')';             /* TODO: Make sure this only works with functions that return a boolean*/
+|                  '(' function_call ')';            
 
 BINARY_OPERATOR: '+'| '-' | '*' | '/' | '&' | '|';
 
@@ -98,7 +113,7 @@ math_expression: '(' BINARY_OPERATOR INT_LITERAL       INT_LITERAL         ')'
 |                '(' BINARY_OPERATOR math_expression   math_expression     ')';
 
 indexing_expression: IDENTIFIER '[' INT_LITERAL ']'
-|                    IDENTIFIER '[' IDENTIFIER  ']';  /* TODO: Make sure this identifier can only be an int variable*/
+|                    IDENTIFIER '[' IDENTIFIER  ']'; 
 
 statement: IF boolean_statement '{' statement '}'
 |          ELSE '{' statement '}'
@@ -110,3 +125,9 @@ statement: IF boolean_statement '{' statement '}'
 |          var_definition;
 
 %%
+
+int yyerror(char *msg){
+ fprintf(stderr, "%s\n", msg);
+ return 0;
+}
+
