@@ -40,10 +40,12 @@ call_parameter: IDENTIFIER
 
 array_list: INT_LITERAL
 |           IDENTIFIER
+|           function_call
 |           indexing_expression
 |           STR_LITERAL
 |           BOOL_LITERAL
 |           array_list ',' IDENTIFIER
+|           array_list ',' function_call
 |           array_list ',' indexing_expression
 |           array_list ',' INT_LITERAL
 |           array_list ',' STR_LITERAL
@@ -51,14 +53,18 @@ array_list: INT_LITERAL
 
 
 var_definition: INT_KEYWORD IDENTIFIER '=' INT_LITERAL ';'
+|               INT_KEYWORD IDENTIFIER '=' math_expression ';'
+|               INT_KEYWORD IDENTIFIER '=' function_call ';'
 |               INT_KEYWORD IDENTIFIER ';'
 |               INT_KEYWORD indexing_expression '=' array_list ';'
 |               INT_KEYWORD indexing_expression ';'
 |               STR_KEYWORD IDENTIFIER '=' STR_LITERAL ';'
+|               STR_KEYWORD IDENTIFIER '=' function_call ';'
 |               STR_KEYWORD IDENTIFIER ';'
 |               STR_KEYWORD indexing_expression '=' array_list ';'
 |               STR_KEYWORD indexing_expression ';'
 |               BOOL_KEYWORD IDENTIFIER '=' BOOL_LITERAL ';'
+|               BOOL_KEYWORD IDENTIFIER '=' function_call ';'
 |               BOOL_KEYWORD IDENTIFIER ';'
 |               BOOL_KEYWORD indexing_expression '=' array_list ';'
 |               BOOL_KEYWORD indexing_expression ';';
