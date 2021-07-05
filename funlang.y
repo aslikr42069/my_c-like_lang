@@ -72,7 +72,24 @@ boolean_statement: '(' IDENTIFIER "==" IDENTIFIER ')' /* TODO: Make sure this on
 |                  '(' boolean_statement ')'
 |                  '(' boolean_statement "&&" boolean_statement ')'
 |                  '(' boolean_statement "||" boolean_statement ')'
+|                  '(' '!' boolean_statement ')'
 |                  '(' function_call ')';             /* TODO: Make sure this only works with functions that return a boolean*/
+
+BINARY_OPERATOR: '+'| '-' | '*' | '/' | '&' | '|';
+
+math_expression: '(' BINARY_OPERATOR INT_LITERAL       INT_LITERAL         ')'
+|                '(' BINARY_OPERATOR INT_LITERAL       IDENTIFIER          ')'
+|                '(' BINARY_OPERATOR IDENTIFIER        INT_LITERAL         ')'
+|                '(' BINARY_OPERATOR INT_LITERAL       function_call       ')'
+|                '(' BINARY_OPERATOR function_call     INT_LITERAL         ')'
+|                '(' BINARY_OPERATOR function_call     function_call       ')'
+|                '(' BINARY_OPERATOR INT_LITERAL       math_expression     ')'
+|                '(' BINARY_OPERATOR math_expression   INT_LITERAL         ')'
+|                '(' BINARY_OPERATOR math_expression   IDENTIFIER          ')'
+|                '(' BINARY_OPERATOR IDENTIFIER        math_expression     ')'
+|                '(' BINARY_OPERATOR math_expression   function_call       ')'
+|                '(' BINARY_OPERATOR function_call     math_expression     ')'
+|                '(' BINARY_OPERATOR math_expression   math_expression     ')';
 
 indexing_expression: IDENTIFIER '[' INT_LITERAL ']'
 |                    IDENTIFIER '[' IDENTIFIER  ']';  /* TODO: Make sure this identifier can only be an int variable*/
