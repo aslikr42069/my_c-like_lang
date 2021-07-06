@@ -16,7 +16,7 @@ int_literal        ((-)?((0x)[0-9A-Fa-f]+|[0-9]+))
 str_literal        (\"[A-Za-z0-9 \t!#-&(-/:-@[-_{-~]*\")
 whitespace         [ \t\r]
 identifier         ([_A-Za-z])([_A-Za-z0-9]+)
-controlflow        ([!#-&(-/:-@[-_{-~])
+controlflow        ([!#-&(-/:-@[-^{-~])
 
 %%
 "func"                {return FUNCTION_KEYWORD; }
