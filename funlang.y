@@ -81,6 +81,7 @@ immutable_var_definition: INT_KEYWORD  IDENTIFIER          '=' INT_LITERAL      
 |                         STR_KEYWORD  indexing_expression                         ';'
 |                         BOOL_KEYWORD IDENTIFIER          '=' BOOL_LITERAL        ';'
 |                         BOOL_KEYWORD IDENTIFIER          '=' function_call       ';'
+|                         BOOL_KEYWORD IDENTIFIER          '=' boolean_statement   ';'
 |                         BOOL_KEYWORD IDENTIFIER                                  ';'
 |                         BOOL_KEYWORD indexing_expression '=' array_list          ';'
 |                         BOOL_KEYWORD indexing_expression                         ';';
