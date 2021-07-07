@@ -13,11 +13,13 @@ size_t line_count = 1;
 
 
 int_literal        ((-)?((0x)[0-9A-Fa-f]+|[0-9]+))
-str_literal        (\"[A-Za-z0-9 \t!#-&(-/:-@[-_{-~]*\")
-char_literal       (\'(([ -\[\]-~]{1})|((\\n){1})|((\\t){1})|((\\\\){1}))\')
+str_literal        (\".*\")
+char_literal       (\'(.|\\n|\\\\|\\t)\')
 whitespace         [ \t\r]
 identifier         ([_A-Za-z])([_A-Za-z0-9]+)
 controlflow        ([!#-&(-/:-@[-^{-~])
+comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
+
 
 %%
 "func"                {return FUNCTION_KEYWORD; }
@@ -37,6 +39,7 @@ controlflow        ([!#-&(-/:-@[-^{-~])
 {identifier}          {yylval->name = strdup(yytext);
                        return IDENTIFIER;       }
 {char_literal}        {return CHAR_LITERAL;     }
+{comment}             {return COMMENT;          }
 \n                    {line_count++; }
 {whitespace}                       ;
 {controlflow}                      ;
