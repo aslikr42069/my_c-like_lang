@@ -18,8 +18,8 @@
 
 %token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD
 %token BOOL_LITERAL STR_LITERAL GIVES_TYPE CHAR_LITERAL COMMENT OTHER
-%token <char *>  INT_LITERAL
-%token <int> IDENTIFIER
+%token <intmax_t>  INT_LITERAL
+%token <char *> IDENTIFIER
 
 %output  "Parser.c"
 %defines "Parser.h"
