@@ -13,7 +13,7 @@ size_t line_count = 1;
 
 
 int_literal        ((-)?((0x)[0-9A-Fa-f]+|[0-9]+))
-str_literal        (\".*\")
+str_literal        (\"(([^\"\\])|\\\"|\\\\)*\")
 char_literal       (\'(.|\\n|\\\\|\\t)\')
 whitespace         [ \t\r]
 identifier         ([_A-Za-z])([_A-Za-z0-9]+)
