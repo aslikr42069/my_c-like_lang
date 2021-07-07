@@ -49,12 +49,20 @@ parameter: INT_KEYWORD                IDENTIFIER
 |          BOOL_KEYWORD               IDENTIFIER
 |          parameter ',' BOOL_KEYWORD IDENTIFIER;
 
-call_parameters: parameter
+call_parameters: call_parameter
 |                %empty;
 
 
 call_parameter: IDENTIFIER
-|               parameter ',' IDENTIFIER;
+|               INT_LITERAL
+|               STR_LITERAL
+|               BOOL_LITERAL
+|               boolean_statement
+|               call_parameter ',' IDENTIFIER
+|               call_parameter ',' INT_LITERAL
+|               call_parameter ',' STR_LITERAL
+|               call_parameter ',' BOOL_LITERAL
+|               call_parameter ',' boolean_statement;
 
 array_list: INT_LITERAL
 |           IDENTIFIER
@@ -95,6 +103,10 @@ function_call: IDENTIFIER '(' call_parameters ')';
 
 boolean_statement: '(' IDENTIFIER "==" IDENTIFIER ')'
 |                  '(' IDENTIFIER ')'               
+|                  '(' IDENTIFIER '>' IDENTIFIER  ')'
+|                  '(' IDENTIFIER '<' IDENTIFIER  ')'
+|                  '(' IDENTIFIER ">=" IDENTIFIER ')'
+|                  '(' IDENTIFIER "<=" IDENTIFIER ')'
 |                  '(' indexing_expression ')'     
 |                  '(' boolean_statement ')'
 |                  '(' boolean_statement "&&" boolean_statement ')'
