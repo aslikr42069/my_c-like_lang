@@ -34,7 +34,7 @@ comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
 
 {int_literal}         {yylval->val = (intmax_t) strtol(yytext, (char **) NULL, 0);
                        return INT_LITERAL;      }
-{binary_literal}      {yylval->val = (intmax_t) strtol(yytext + 2, (char **)NULL, 2);
+{binary_literal}      {yylval->val = (intmax_t) strtol(yytext + 2, (char **) NULL, 2);
                        return INT_LITERAL;      }
 
 {str_literal}         {return STR_LITERAL;      }
