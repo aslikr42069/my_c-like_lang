@@ -17,7 +17,7 @@
 
 
 %token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD
-%token BOOL_LITERAL STR_LITERAL GIVES_TYPE OTHER
+%token BOOL_LITERAL STR_LITERAL GIVES_TYPE CHAR_LITERAL OTHER
 %token <val>  INT_LITERAL
 %token <name> IDENTIFIER
 
@@ -67,23 +67,25 @@ array_list: INT_LITERAL
 |           array_list ',' BOOL_LITERAL;
 
 
-var_definition: INT_KEYWORD IDENTIFIER '=' INT_LITERAL ';'
-|               INT_KEYWORD IDENTIFIER '=' math_expression ';'
-|               INT_KEYWORD IDENTIFIER '=' function_call ';'
-|               INT_KEYWORD IDENTIFIER ';'
-|               INT_KEYWORD indexing_expression '=' array_list ';'
-|               INT_KEYWORD indexing_expression ';'
-|               STR_KEYWORD IDENTIFIER '=' STR_LITERAL ';'
-|               STR_KEYWORD IDENTIFIER '=' function_call ';'
-|               STR_KEYWORD IDENTIFIER ';'
-|               STR_KEYWORD indexing_expression '=' array_list ';'
-|               STR_KEYWORD indexing_expression ';'
-|               BOOL_KEYWORD IDENTIFIER '=' BOOL_LITERAL ';'
-|               BOOL_KEYWORD IDENTIFIER '=' function_call ';'
-|               BOOL_KEYWORD IDENTIFIER ';'
-|               BOOL_KEYWORD indexing_expression '=' array_list ';'
-|               BOOL_KEYWORD indexing_expression ';';
+immutable_var_definition: INT_KEYWORD  IDENTIFIER          '=' INT_LITERAL         ';'
+|                         INT_KEYWORD  IDENTIFIER          '=' math_expression     ';'
+|                         INT_KEYWORD  IDENTIFIER          '=' function_call       ';'
+|                         INT_KEYWORD  IDENTIFIER          '=' CHAR_LITERAL        ';'
+|                         INT_KEYWORD  IDENTIFIER                                  ';'
+|                         INT_KEYWORD  indexing_expression '=' array_list          ';'
+|                         INT_KEYWORD  indexing_expression                         ';'
+|                         STR_KEYWORD  IDENTIFIER          '=' STR_LITERAL         ';'
+|                         STR_KEYWORD  IDENTIFIER          '=' function_call       ';'
+|                         STR_KEYWORD  IDENTIFIER                                  ';'
+|                         STR_KEYWORD  indexing_expression '=' array_list          ';'
+|                         STR_KEYWORD  indexing_expression                         ';'
+|                         BOOL_KEYWORD IDENTIFIER          '=' BOOL_LITERAL        ';'
+|                         BOOL_KEYWORD IDENTIFIER          '=' function_call       ';'
+|                         BOOL_KEYWORD IDENTIFIER                                  ';'
+|                         BOOL_KEYWORD indexing_expression '=' array_list          ';'
+|                         BOOL_KEYWORD indexing_expression                         ';';
 
+mutable_var_definition: "mut" immutable_var_definition;
 
 function_call: IDENTIFIER '(' call_parameters ')';
 
@@ -122,7 +124,7 @@ statement: IF boolean_statement '{' statement '}'
 |          "return" INT_LITERAL    ';'
 |          "return" STR_LITERAL    ';'
 |          "return" BOOL_LITERAL   ';'
-|          var_definition;
+|          immutable_var_definition;
 
 %%
 

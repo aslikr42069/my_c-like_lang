@@ -30,14 +30,14 @@ int main(int argc, char *argv[]){
   return 0;
  }
  fclose(file);
- /*
+ 
  YY_BUFFER_STATE state;
  yyscan_t scanner;
  yylex_init(&scanner);
  yy_scan_string(input, scanner);
  yyparse(scanner);
  yylex_destroy(scanner);
- */
+ 
 
  free(input);
  return 0; 
