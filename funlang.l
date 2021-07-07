@@ -1,7 +1,7 @@
 %option outfile="Lexer.c" header-file="Lexer.h"
 
 %option bison-bridge bison-locations never-interactive reentrant
-%option warn nodefault nounistd yylineno noinput nounput
+%option warn nodefault nounistd yylineno noinput nounput 8bit
 %option noyywrap batch
 
 %{
