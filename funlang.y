@@ -37,8 +37,7 @@ program: program function
 
 function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE INT_KEYWORD  '{' statement '}'
 |         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE STR_KEYWORD  '{' statement '}'
-|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE BOOL_KEYWORD '{' statement '}'
-|         %empty;
+|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE BOOL_KEYWORD '{' statement '}';
 
 parameters: parameter
 |           %empty;
