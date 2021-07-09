@@ -78,24 +78,15 @@ array_list: INT_LITERAL
 |           array_list ',' BOOL_LITERAL;
 
 
-immutable_var_definition: INT_KEYWORD  IDENTIFIER          '=' INT_LITERAL         ';'
-|                         INT_KEYWORD  IDENTIFIER          '=' math_expression     ';'
-|                         INT_KEYWORD  IDENTIFIER          '=' function_call       ';'
-|                         INT_KEYWORD  IDENTIFIER          '=' CHAR_LITERAL        ';'
-|                         INT_KEYWORD  IDENTIFIER                                  ';'
-|                         INT_KEYWORD  indexing_expression '=' array_list          ';'
-|                         INT_KEYWORD  indexing_expression                         ';'
-|                         STR_KEYWORD  IDENTIFIER          '=' STR_LITERAL         ';'
-|                         STR_KEYWORD  IDENTIFIER          '=' function_call       ';'
-|                         STR_KEYWORD  IDENTIFIER                                  ';'
-|                         STR_KEYWORD  indexing_expression '=' array_list          ';'
-|                         STR_KEYWORD  indexing_expression                         ';'
-|                         BOOL_KEYWORD IDENTIFIER          '=' BOOL_LITERAL        ';'
-|                         BOOL_KEYWORD IDENTIFIER          '=' function_call       ';'
-|                         BOOL_KEYWORD IDENTIFIER          '=' boolean_statement   ';'
-|                         BOOL_KEYWORD IDENTIFIER                                  ';'
-|                         BOOL_KEYWORD indexing_expression '=' array_list          ';'
-|                         BOOL_KEYWORD indexing_expression                         ';';
+immutable_var_definition: INT_KEYWORD   var_assignment
+|                         STR_KEYWORD   var_assignment
+|                         BOOL_KEYWORD  var_assignment
+|                         INT_KEYWORD   IDENTIFIER              ';'
+|                         STR_KEYWORD   IDENTIFIER              ';'
+|                         BOOL_KEYWORD  IDENTIFIER              ';'
+|                         INT_KEYWORD   indexing_expression     ';'
+|                         STR_KEYWORD   indexing_expression     ';'
+|                         BOOL_KEYWORD  indexing_expression     ';';
 
 mutable_var_definition: "mut" immutable_var_definition;
 
@@ -141,6 +132,17 @@ statement: IF boolean_statement '{' statement '}'
 |          "return" STR_LITERAL    ';'
 |          "return" BOOL_LITERAL   ';'
 |          immutable_var_definition;
+
+var_assignment: IDENTIFIER '='          STR_LITERAL          ';'
+|               IDENTIFIER '='          INT_LITERAL          ';'
+|               IDENTIFIER '='          BOOL_LITERAL         ';'
+|               IDENTIFIER '='          function_call        ';'
+|               IDENTIFIER '='          math_expression      ';'
+|               indexing_expression '=' STR_LITERAL          ';'
+|               indexing_expression '=' INT_LITERAL          ';'
+|               indexing_expression '=' BOOL_LITERAL         ';'
+|               indexing_expression '=' function_call        ';'
+|               indexing_expression '=' math_expression      ';';
 
 %%
 
