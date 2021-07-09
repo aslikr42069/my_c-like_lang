@@ -20,7 +20,7 @@
 
 
 %token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD ARROW
-%token BOOL_LITERAL STR_LITERAL CHAR_LITERAL COMMENT WHILE OTHER
+%token BOOL_LITERAL STR_LITERAL CHAR_LITERAL COMMENT WHILE STRUCT_KEYWORD OTHER
 %token <val>  INT_LITERAL
 %token <name> IDENTIFIER
 
@@ -36,14 +36,26 @@
 
 %%
 
-program: functions;
+program: body;
 
-functions: functions function
+body: body function
 |          function;
 
 function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW INT_KEYWORD  '{' statements '}'
 |         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW STR_KEYWORD  '{' statements '}'
 |         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW BOOL_KEYWORD '{' statements '}';
+
+struct: STRUCT_KEYWORD IDENTIFIER '{' struct_body '}';
+
+struct_body: struct_body standalone_var_defs
+|            standalone_var_defs;
+
+standalone_var_defs:  INT_KEYWORD  IDENTIFIER           ';'
+|                     STR_KEYWORD  IDENTIFIER           ';'
+|                     BOOL_KEYWORD IDENTIFIER           ';'
+|                     INT_KEYWORD  indexing_expression  ';'
+|                     STR_KEYWORD  indexing_expression  ';'
+|                     BOOL_KEYWORD indexing_expression  ';';
 
 statements: statements statement
 |           %empty;
@@ -90,12 +102,7 @@ array_list: INT_LITERAL
 immutable_var_definition: INT_KEYWORD   var_assignment
 |                         STR_KEYWORD   var_assignment
 |                         BOOL_KEYWORD  var_assignment
-|                         INT_KEYWORD   IDENTIFIER              ';'
-|                         STR_KEYWORD   IDENTIFIER              ';'
-|                         BOOL_KEYWORD  IDENTIFIER              ';'
-|                         INT_KEYWORD   indexing_expression     ';'
-|                         STR_KEYWORD   indexing_expression     ';'
-|                         BOOL_KEYWORD  indexing_expression     ';';
+|                         standalone_var_defs;
 
 mutable_var_definition: "mut" immutable_var_definition;
 

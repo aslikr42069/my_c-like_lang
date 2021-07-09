@@ -34,6 +34,7 @@ comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
 "false"               {return BOOL_LITERAL;     }
 "while"               {return WHILE;            }
 "->"                  {return ARROW;            }
+"struct"              {return STRUCT_KEYWORD;   }
 
 {binary_literal}      {yylval->val = (intmax_t) strtol(yytext + 2, (char **) NULL, 2);
                        return INT_LITERAL;      }
