@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -O2 -std=c99 -Wall -Wextra -Wpedantic -march=native -lfl -pipe
+CFLAGS  = -O2 -std=c11 -Wall -Wextra -Wpedantic -march=native -lfl -pipe
 INFILES = main.c Lexer.c Parser.c
 OUTFILE = language
 

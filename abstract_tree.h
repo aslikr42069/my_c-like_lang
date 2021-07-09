@@ -12,9 +12,11 @@ enum AST_NODES_TYPE{PROGRAM, FUNCTION, STATEMENTS, ARGUMENT_LIST, FUNCTION_CALL,
 
 typedef struct ASTnode_t{
  enum AST_NODES_TYPE type; // e.g., program, function, etc.
- intmax_t val;
- size_t function_symbol_table_index;
- size_t variable_symbol_table_index;
+ union {
+  intmax_t val;
+  size_t function_symbol_table_index;
+  size_t variable_symbol_table_index;
+ };
  size_t child_count;
  struct ASTnode_t **next; // Double pointer in case that there is more than 1 child
 }ASTnode_t;
