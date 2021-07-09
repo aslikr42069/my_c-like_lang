@@ -35,9 +35,12 @@
 program: program function
 |        function;
 
-function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE INT_KEYWORD  '{' statement '}'
-|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE STR_KEYWORD  '{' statement '}'
-|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE BOOL_KEYWORD '{' statement '}';
+function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE INT_KEYWORD  '{' statements '}'
+|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE STR_KEYWORD  '{' statements '}'
+|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE BOOL_KEYWORD '{' statements '}';
+
+statements: statements statement
+|           %empty;
 
 parameters: parameter
 |           %empty;
@@ -131,7 +134,8 @@ statement: IF boolean_statement '{' statement '}'
 |          "return" INT_LITERAL    ';'
 |          "return" STR_LITERAL    ';'
 |          "return" BOOL_LITERAL   ';'
-|          immutable_var_definition;
+|          immutable_var_definition
+|          var_assignment;
 
 var_assignment: IDENTIFIER '='          STR_LITERAL          ';'
 |               IDENTIFIER '='          INT_LITERAL          ';'
