@@ -16,8 +16,8 @@
 }
 
 
-%token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD
-%token BOOL_LITERAL STR_LITERAL GIVES_TYPE CHAR_LITERAL COMMENT OTHER
+%token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD ARROW
+%token BOOL_LITERAL STR_LITERAL CHAR_LITERAL COMMENT WHILE OTHER
 %token <intmax_t>  INT_LITERAL
 %token <char *> IDENTIFIER
 
@@ -35,9 +35,9 @@
 program: program function
 |        function;
 
-function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE INT_KEYWORD  '{' statements '}'
-|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE STR_KEYWORD  '{' statements '}'
-|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' GIVES_TYPE BOOL_KEYWORD '{' statements '}';
+function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW INT_KEYWORD  '{' statements '}'
+|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW STR_KEYWORD  '{' statements '}'
+|         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW BOOL_KEYWORD '{' statements '}';
 
 statements: statements statement
 |           %empty;
@@ -135,7 +135,10 @@ statement: IF boolean_statement '{' statement '}'
 |          "return" STR_LITERAL    ';'
 |          "return" BOOL_LITERAL   ';'
 |          immutable_var_definition
-|          var_assignment;
+|          var_assignment
+|          while_loop;
+
+while_loop: WHILE boolean_statement '{' statements '}';
 
 var_assignment: IDENTIFIER '='          STR_LITERAL          ';'
 |               IDENTIFIER '='          INT_LITERAL          ';'

@@ -31,6 +31,8 @@ comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
 "bool"                {return BOOL_KEYWORD;     }
 "true"                {return BOOL_LITERAL;     }
 "false"               {return BOOL_LITERAL;     }
+"while"               {return WHILE;            }
+"->"                  {return ARROW;            }
 
 {binary_literal}      {yylval->val = (intmax_t) strtol(yytext + 2, (char **) NULL, 2);
                        return INT_LITERAL;      }
@@ -38,7 +40,6 @@ comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
                        return INT_LITERAL;      }
 
 {str_literal}         {return STR_LITERAL;      }
-"->"                  {return GIVES_TYPE;       }
 {identifier}          {yylval->name = strdup(yytext);
                        return IDENTIFIER;       }
 {char_literal}        {return CHAR_LITERAL;     }
