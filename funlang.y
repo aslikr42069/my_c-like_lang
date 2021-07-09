@@ -36,8 +36,10 @@
 
 %%
 
-program: program function
-|        function;
+program: functions;
+
+functions: functions function
+|          function;
 
 function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW INT_KEYWORD  '{' statements '}'
 |         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW STR_KEYWORD  '{' statements '}'
