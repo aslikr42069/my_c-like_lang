@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "Parser.h"
+#include "abstract_tree.h"
 size_t line_count = 1;
 %}
 

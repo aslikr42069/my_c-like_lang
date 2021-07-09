@@ -2,10 +2,13 @@
 %locations
 %param {yyscan_t scanner}
 
-%code top{
+%{
  #include <stdio.h>
  #include <stdint.h>
-}
+ #include "abstract_tree.h"
+
+ ASTnode_t *makeNode(enum AST_NODES_TYPE type, size_t child_count, char *name, intmax_t value);
+%}
 
 %code requires{
  typedef void* yyscan_t;
@@ -18,8 +21,8 @@
 
 %token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD ARROW
 %token BOOL_LITERAL STR_LITERAL CHAR_LITERAL COMMENT WHILE OTHER
-%token <intmax_t>  INT_LITERAL
-%token <char *> IDENTIFIER
+%token <val>  INT_LITERAL
+%token <name> IDENTIFIER
 
 %output  "Parser.c"
 %defines "Parser.h"
@@ -27,6 +30,7 @@
 %union{
  char *name;
  intmax_t val;
+ struct ASTnode_t *node; 
 };
 
 
