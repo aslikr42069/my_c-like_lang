@@ -19,7 +19,7 @@ str_literal        (\"(([^\"\\])|\\\"|\\\\)*\")
 char_literal       (\'(.|\\n|\\\\|\\t)\')
 whitespace         [ \t\r]
 identifier         ([_A-Za-z][_A-Za-z0-9]+)
-controlflow        ([!#-&(-/:-@[-^{-~])
+controlflow        ([!#-&(-/:-@\[-^{-~])
 comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
 
 
