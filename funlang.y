@@ -12,6 +12,13 @@
  ASTnode_t *makeBodyNode(char *name, ASTnode_t* body, ASTnode_t* function, ASTnode_t* structure_node);
  ASTnode_t *makeImmutableVarNode(size_t var_type, ASTnode_t* var_assignment, ASTnode_t* standalone_var_def);
  ASTnode_t *makeMutableVarNode(size_t var_type, ASTnode_t* var_assignment, ASTnode_t* standalone_var_def);
+ ASTnode_t *makeVarAssignmentNode(char *name, size_t type, ASTnode_t* function_call, ASTnode_t* expression);
+ ASTnode_t *makeFunctionCallNode(char *name, ASTnode_t* parameters);
+ ASTnode_t *makeFunctionDefParametersNode(size_t type, char *name, ASTnode_t* parameters, size_t isEmpty);
+ ASTnode_t *makeFunctionCallParametersNode(size_t type, char *name, size_t isVar);
+ ASTnode_t *makeStructBodyNode(ASTnode_t* struct_body, ASTnode_t* var_defs);
+ ASTnode_t *makeStatementNode(size_t type, ASTnode_t* first_node, ASTnode_t* second_node, intmax_t int_literal, char *str, size_t bool_literal);
+ ASTnode_t *makeStatementsNode(size_t isEmpty, ASTnode_t statements);
 %}
 
 %code requires{
@@ -68,30 +75,25 @@ standalone_var_defs:  INT_KEYWORD  IDENTIFIER           ';'
 statements: statements statement
 |           %empty;
 
-parameters: parameter
+parameters: INT_KEYWORD                 IDENTIFIER
+|           parameters ',' INT_KEYWORD  IDENTIFIER
+|           STR_KEYWORD                 IDENTIFIER
+|           parameters ',' STR_KEYWORD  IDENTIFIER
+|           BOOL_KEYWORD                IDENTIFIER
+|           parameters ',' BOOL_KEYWORD IDENTIFIER
 |           %empty;
 
-parameter: INT_KEYWORD                IDENTIFIER
-|          parameter ',' INT_KEYWORD  IDENTIFIER
-|          STR_KEYWORD                IDENTIFIER
-|          parameter ',' STR_KEYWORD  IDENTIFIER
-|          BOOL_KEYWORD               IDENTIFIER
-|          parameter ',' BOOL_KEYWORD IDENTIFIER;
-
-call_parameters: call_parameter
+call_parameters: IDENTIFIER
+|                INT_LITERAL
+|                STR_LITERAL
+|                BOOL_LITERAL
+|                boolean_statement
+|                call_parameters ',' IDENTIFIER
+|                call_parameters ',' INT_LITERAL
+|                call_parameters ',' STR_LITERAL
+|                call_parameters ',' BOOL_LITERAL
+|                call_parameters ',' boolean_statement
 |                %empty;
-
-
-call_parameter: IDENTIFIER
-|               INT_LITERAL
-|               STR_LITERAL
-|               BOOL_LITERAL
-|               boolean_statement
-|               call_parameter ',' IDENTIFIER
-|               call_parameter ',' INT_LITERAL
-|               call_parameter ',' STR_LITERAL
-|               call_parameter ',' BOOL_LITERAL
-|               call_parameter ',' boolean_statement;
 
 array_list: INT_LITERAL
 |           IDENTIFIER
