@@ -7,7 +7,11 @@
  #include <stdint.h>
  #include "abstract_tree.h"
 
- ASTnode_t *makeNode(enum AST_NODES_TYPE type, size_t child_count, char *name, intmax_t value);
+ ASTnode_t *makeFunctionNode(char *name, ASTnode_t* parameters, enum AST_NODES_TYPE return_type, ASTnode_t* statements);
+ ASTnode_t *makeStructNode(char *name, ASTnode_t* structure_body);
+ ASTnode_t *makeBodyNode(char *name, ASTnode_t* body, ASTnode_t* function, ASTnode_t* structure_node);
+ ASTnode_t *makeImmutableVarNode(size_t var_type, ASTnode_t* var_assignment, ASTnode_t* standalone_var_def);
+ ASTnode_t *makeMutableVarNode(size_t var_type, ASTnode_t* var_assignment, ASTnode_t* standalone_var_def);
 %}
 
 %code requires{
@@ -39,23 +43,27 @@
 program: body;
 
 body: body function
-|          function;
+|     body structure
+|          function
+|          structure;
 
 function: FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW INT_KEYWORD  '{' statements '}'
 |         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW STR_KEYWORD  '{' statements '}'
 |         FUNCTION_KEYWORD IDENTIFIER '(' parameters ')' ARROW BOOL_KEYWORD '{' statements '}';
 
-struct: STRUCT_KEYWORD IDENTIFIER '{' struct_body '}';
+structure: STRUCT_KEYWORD IDENTIFIER '{' structure_body '}';
 
-struct_body: struct_body standalone_var_defs
-|            standalone_var_defs;
+structure_body: structure_body standalone_var_defs
+|               standalone_var_defs;
 
 standalone_var_defs:  INT_KEYWORD  IDENTIFIER           ';'
 |                     STR_KEYWORD  IDENTIFIER           ';'
 |                     BOOL_KEYWORD IDENTIFIER           ';'
+|                     IDENTIFIER   IDENTIFIER           ';'
 |                     INT_KEYWORD  indexing_expression  ';'
 |                     STR_KEYWORD  indexing_expression  ';'
-|                     BOOL_KEYWORD indexing_expression  ';';
+|                     BOOL_KEYWORD indexing_expression  ';'
+|                     IDENTIFIER   indexing_expression  ';';
 
 statements: statements statement
 |           %empty;
