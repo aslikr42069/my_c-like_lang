@@ -17,6 +17,7 @@ int_literal        ((-)?((0x)[0-9A-Fa-f]+|[0-9]+))
 binary_literal     (0b(0|1)+)
 str_literal        (\"(([^\"\\])|\\\"|\\\\)*\")
 char_literal       (\'(.|\\n|\\\\|\\t)\')
+binary_operator    ([\*\/+&|]{1})
 whitespace         [ \t\r]
 identifier         ([_A-Za-z][_A-Za-z0-9]+)
 controlflow        ([!#-&(-/:-@\[-^{-~])
@@ -35,6 +36,8 @@ comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
 "while"               {return WHILE;            }
 "->"                  {return ARROW;            }
 "struct"              {return STRUCT_KEYWORD;   }
+"-"                   {yylval->operator = '-';
+                        return BINARY_OPERATOR; }
 
 {binary_literal}      {yylval->val = (intmax_t) strtol(yytext + 2, (char **) NULL, 2);
                        return INT_LITERAL;      }
@@ -45,7 +48,9 @@ comment            ((\/\/[^\r\n]*)|(\/\*(.|[\r\n])*\*\/))
 {identifier}          {yylval->name = strdup(yytext);
                        return IDENTIFIER;       }
 {char_literal}        {return CHAR_LITERAL;     }
-{comment}             {return COMMENT;          }
+{binary_operator}     { yylval->operator = yytext;
+                        return BINARY_OPERATOR; }
+{comment}                          ;
 \n                    {line_count++; }
 {whitespace}                       ;
 {controlflow}                      ;

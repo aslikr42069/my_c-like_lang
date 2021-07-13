@@ -7,18 +7,6 @@
  #include <stdint.h>
  #include "abstract_tree.h"
 
- ASTnode_t *makeFunctionNode(char *name, ASTnode_t* parameters, enum AST_NODES_TYPE return_type, ASTnode_t* statements);
- ASTnode_t *makeStructNode(char *name, ASTnode_t* structure_body);
- ASTnode_t *makeBodyNode(char *name, ASTnode_t* body, ASTnode_t* function, ASTnode_t* structure_node);
- ASTnode_t *makeImmutableVarNode(size_t var_type, ASTnode_t* var_assignment, ASTnode_t* standalone_var_def);
- ASTnode_t *makeMutableVarNode(size_t var_type, ASTnode_t* var_assignment, ASTnode_t* standalone_var_def);
- ASTnode_t *makeVarAssignmentNode(char *name, size_t type, ASTnode_t* function_call, ASTnode_t* expression);
- ASTnode_t *makeFunctionCallNode(char *name, ASTnode_t* parameters);
- ASTnode_t *makeFunctionDefParametersNode(size_t type, char *name, ASTnode_t* parameters, size_t isEmpty);
- ASTnode_t *makeFunctionCallParametersNode(size_t type, char *name, size_t isVar);
- ASTnode_t *makeStructBodyNode(ASTnode_t* struct_body, ASTnode_t* var_defs);
- ASTnode_t *makeStatementNode(size_t type, ASTnode_t* first_node, ASTnode_t* second_node, intmax_t int_literal, char *str, size_t bool_literal);
- ASTnode_t *makeStatementsNode(size_t isEmpty, ASTnode_t statements);
 %}
 
 %code requires{
@@ -31,8 +19,9 @@
 
 
 %token FUNCTION_KEYWORD IF ELSE INT_KEYWORD STR_KEYWORD BOOL_KEYWORD ARROW
-%token BOOL_LITERAL STR_LITERAL CHAR_LITERAL COMMENT WHILE STRUCT_KEYWORD OTHER
+%token BOOL_LITERAL STR_LITERAL CHAR_LITERAL WHILE STRUCT_KEYWORD OTHER
 %token <val>  INT_LITERAL
+%token <char> BINARY_OPERATOR
 %token <name> IDENTIFIER
 
 %output  "Parser.c"
@@ -40,6 +29,7 @@
 
 %union{
  char *name;
+ char operator;
  intmax_t val;
  struct ASTnode_t *node; 
 };
@@ -131,11 +121,10 @@ boolean_statement: '(' IDENTIFIER "==" IDENTIFIER ')'
 |                  '(' '!' boolean_statement ')'
 |                  '(' function_call ')';            
 
-BINARY_OPERATOR: '+'| '-' | '*' | '/' | '&' | '|';
-
 math_expression: '(' BINARY_OPERATOR INT_LITERAL       INT_LITERAL         ')'
 |                '(' BINARY_OPERATOR INT_LITERAL       IDENTIFIER          ')'
 |                '(' BINARY_OPERATOR IDENTIFIER        INT_LITERAL         ')'
+|                '(' BINARY_OPERATOR IDENTIFIER        IDENTIFIER          ')'
 |                '(' BINARY_OPERATOR INT_LITERAL       function_call       ')'
 |                '(' BINARY_OPERATOR function_call     INT_LITERAL         ')'
 |                '(' BINARY_OPERATOR function_call     function_call       ')'
