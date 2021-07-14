@@ -21,7 +21,7 @@ typedef struct ASTnode_t{
  struct ASTnode_t **next; // Double pointer in case that there is more than 1 child
 }ASTnode_t;
 
-ASTnode_t *makeProgramNode(ASTnode_t *body);
+ ASTnode_t *makeProgramNode(ASTnode_t *body);
  ASTnode_t *makeFunctionNode(char *name, ASTnode_t* parameters, enum AST_NODES_TYPE return_type, ASTnode_t* statements);
  ASTnode_t *makeStructNode(char *name, ASTnode_t* structure_body);
  ASTnode_t *makeBodyNode(char *name, ASTnode_t* body, ASTnode_t* function, ASTnode_t* structure_node);
