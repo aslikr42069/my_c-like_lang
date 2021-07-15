@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 enum TOKEN_TYPE{IDENTIFIER, INT_LITERAL, STR_LITERAL, CHAR_LITERAL, PLUS, MINUS, TIMES, DIVIDE, AND, OR, LEFT_PAREN, RIGHT_PAREN,
                 LEFT_SQUARE, RIGHT_SQUARE, LEFT_CURLY, RIGHT_CURLY, IF, ELSE, INT_KEYWORD, STR_KEYWORD, BOOL_KEYWORD,

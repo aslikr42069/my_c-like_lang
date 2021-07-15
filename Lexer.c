@@ -177,7 +177,40 @@ size_t lex(char *input, size_t input_size, size_t *index){
    printf("Found Identifier\n");
    return IDENTIFIER;
   }
-  lexIdentifier(input, input_size, index);
+  size_t end = *index;
+  lexIdentifier(input, input_size, &end);
+  size_t length = end - *index;
+  if((length == 2) && (strncmp(input + *index, "if", 2) == 0)){
+   printf("found IF statement\n");
+   *index = end;
+   return IF;
+  }
+  if((length == 4) && (strncmp(input + *index, "else", 4) == 0)){
+   printf("found ELSE\n");
+   *index = end;
+   return ELSE;
+  }
+  if((length == 3) && (strncmp(input + *index, "int", 3) == 0)){
+   printf("found INT keyword\n");
+   *index = end;
+   return INT_KEYWORD;
+  }
+  if((length == 3) && (strncmp(input + *index, "str", 3) == 0)){
+   printf("found STR keyword\n");
+   *index = end;
+   return STR_KEYWORD;
+  }
+  if((length == 4) && (strncmp(input + *index, "bool", 4) == 0)){
+   printf("found BOOL keyword\n");
+   *index = end;
+   return BOOL_KEYWORD;
+  }
+  if((length == 4) && (strncmp(input + *index, "func", 4) == 0)){
+   printf("found FUNC keyword\n");
+   *index = end;
+   return FUNC_KEYWORD;
+  }
+  *index = end;
   printf("Found Identifier\n");
   return IDENTIFIER;
  } else if((input[*index] >= '0' && input[*index] <= '9')){
