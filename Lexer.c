@@ -163,6 +163,13 @@ void lexPositiveNumber(char *input, size_t input_size, size_t *index){
 }
 
 size_t lex(char *input, size_t input_size, size_t *index){
+ if(input[*index] == ' ' || input[*index] == '\n' || input[*index] == '\t'){
+  size_t tmp = *index;
+  while(input[tmp] == ' ' || input[tmp] == '\n' || input[tmp] == '\t'){
+   tmp++;
+  }
+  *index = tmp;
+ }
  if((input[*index] >= 'A' && input[*index] <= 'Z') || (input[*index] >= 'a' && input[*index] <= 'z') || (input[*index] == '_')){
   /* if a token starts with [_A-Za-z], then it is an identifier. That's how we define it,
      and this is what is run when a token that starts off with [_A-Za-z] is identified :))*/
@@ -264,16 +271,7 @@ size_t lex(char *input, size_t input_size, size_t *index){
     case '}':
      *index += 1;
      return RIGHT_CURLY;
-     break;
-    case ' ':
-     *index += 1;
-     break;
-    case '\n':
-     *index += 1;
-     break;
-    case '\t':
-     *index += 1;
-     break;
+     break; 
     default:
      *index += 1;
      printf("Found OTHER\n");
