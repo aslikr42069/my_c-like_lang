@@ -34,6 +34,11 @@
  struct ASTnode_t *node; 
 };
 
+%type <node> program body function structure structure_body standalone_var_defs
+%type <node> statements parameters call_parameters array_list immutable_var_definition
+%type <node> mutable_var_definition function_call boolean_statement math_expression
+%type <node> indexing_expression statement while_loop var_assignment
+
 
 %%
 

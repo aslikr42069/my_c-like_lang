@@ -1,7 +1,16 @@
- ASTnode_t *makeProgramNode(ASTnode_t *body){
-  
- }
+#include "abstract_tree.h"
 
+ ASTnode_t *makeProgramNode(ASTnode_t *body){
+  ASTnode_t *tmp;
+  ASTnode_t *subnodes[1];
+  subnodes[0] = body;
+  tmp->type = PROGRAM;
+  tmp->child_count = 1;
+  tmp->next = subnodes;
+  printf("Found a program!\n");
+  return tmp;
+ }
+/*
  ASTnode_t *makeFunctionNode(char *name, ASTnode_t* parameters, enum AST_NODES_TYPE return_type, ASTnode_t* statements){
   
  }
@@ -73,3 +82,5 @@
  ASTnode_t *makeArrayListNode(size_t standalone, ASTnode_t* Array_List, intmax_t int_or_bool_literal, char* identifier_or_str, ASTnode_t* func, ASTnode_t* indexing_expr, ASTnode_t* array_list) {
 
  }
+
+*/
