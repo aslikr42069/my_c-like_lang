@@ -165,7 +165,7 @@ void lexPositiveNumber(char *input, size_t input_size, size_t *index){
 size_t lex(char *input, size_t input_size, size_t *index){
  if(input[*index] == ' ' || input[*index] == '\n' || input[*index] == '\t'){
   size_t tmp = *index;
-  while(input[tmp] == ' ' || input[tmp] == '\n' || input[tmp] == '\t'){
+  while((tmp < input_size - 1) && (input[tmp] == ' ' || input[tmp] == '\n' || input[tmp] == '\t')){
    tmp++;
   }
   *index = tmp;
